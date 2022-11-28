@@ -11,7 +11,9 @@ def index(request: HttpRequest) -> JsonResponse:
         return JsonResponse(projects, safe=False)
 
     if request.method == "POST":
-        project = Project(name="Dummy", link="https://github.com/dariomtz/cloud")
+        project = Project(
+            name=request.POST.name, link="https://github.com/dariomtz/cloud"
+        )
         project.save()
         return JsonResponse(model_to_dict(project))
 
