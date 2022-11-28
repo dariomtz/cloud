@@ -76,9 +76,19 @@ WSGI_APPLICATION = "server.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if os.environ.get("DATABASE_URL"):
+if os.environ.get("PROD"):
+    # Cuando este el código en EC2
     DATABASES = {
-        "default": dj_database_url.config(default=os.environ.get("DATABASE_URL"))
+        "default": {
+            "ENGINE": "django_iam_dbauth.aws.postgresql",
+            "HOST": "database-1.cqbj4ukvx1aw.us-east-2.rds.amazonaws.com",
+            "USER": "django_server_user",
+            "NAME": "postgres",
+            "OPTIONS": {
+                "user_iam_auth": True,
+                "sslmode": "require",
+            },
+        },
     }
 else:
     DATABASES = {
