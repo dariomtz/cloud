@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse, HttpRequest
 from .models import Project
 from django.forms.models import model_to_dict
@@ -11,8 +12,10 @@ def index(request: HttpRequest) -> JsonResponse:
         return JsonResponse(projects, safe=False)
 
     if request.method == "POST":
+        body = json.loads(request.body)
         project = Project(
-            name=request.POST.name, link="https://github.com/dariomtz/cloud"
+            name=body.get("name", "No-name-provided"),
+            link="https://github.com/dariomtz/cloud",
         )
         project.save()
         return JsonResponse(model_to_dict(project))
