@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-import dj_database_url
 import os
 from pathlib import Path
 
@@ -85,7 +84,7 @@ if os.environ.get("PROD"):
             "USER": "django_server_user",
             "NAME": "postgres",
             "OPTIONS": {
-                "user_iam_auth": True,
+                "use_iam_auth": True,
                 "sslmode": "require",
             },
         },
